@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { FaArrowRight, FaGithub } from "react-icons/fa";
 import { useForm, ValidationError } from '@formspree/react';
+import { Link } from "@remix-run/react";
 
 const pixelFont = "'Pixelify Sans', monospace";
 const monoFont = "'IBM Plex Mono', monospace";
@@ -142,8 +143,12 @@ export default function Index() {
           >
             {dark ? "MODE:LIGHT" : "MODE:DARK"}
           </button>
-          <a href={volunteerFormURL} target="_blank" rel="noopener noreferrer" className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px]`}>REGISTER</a>
-          <a href={submissionFormURL} target="_blank" rel="noopener noreferrer" className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px]`}>SUBMIT</a>
+          <Link
+            to="/auth"
+            className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px]`}
+          >
+            ACCOUNTS
+          </Link>
           <a href={githubURL} target="_blank" rel="noopener noreferrer" className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px] flex items-center gap-1`}><FaGithub /> GITHUB</a>
         </div>
       </motion.header>
