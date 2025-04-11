@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { FaArrowRight, FaGithub } from "react-icons/fa";
+import { useForm, ValidationError } from '@formspree/react';
 
 const pixelFont = "'Pixelify Sans', monospace";
 const monoFont = "'IBM Plex Mono', monospace";
@@ -63,6 +64,8 @@ export default function Index() {
       clearInterval(clockInterval);
     }
   }, [reducedMotion]);
+
+  const [state, handleSubmit] = useForm("mnnpwaew");
 
   const theme = dark ? "bg-black text-white" : "bg-white text-black";
   const accentTextClass = `text-[${accentColor}]`;
@@ -486,7 +489,7 @@ export default function Index() {
             </div>
             <div className="md:col-span-2">
               <h4 className={`text-2xl mb-4 font-semibold text-right ${accentTextClass}`}>INITIATE_DIALOGUE:</h4>
-              <form className="space-y-4 border-l-4 border-dashed pl-6">
+              <form className="space-y-4 border-l-4 border-dashed pl-6" onSubmit={handleSubmit}>
                 <label htmlFor="partner-org-name" className="block text-sm uppercase font-bold" style={{ fontFamily: pixelFont }}>ORGANIZATION:</label>
                 <input type="text" id="partner-org-name" name="org" required className={`w-full p-2 bg-transparent border-b-2 ${currentBorderClass} focus:border-[${accentColor}] focus:outline-none font-mono`} />
                 <label htmlFor="partner-contact-name" className="block text-sm uppercase font-bold mt-3" style={{ fontFamily: pixelFont }}>CONTACT_NAME:</label>
@@ -505,9 +508,15 @@ export default function Index() {
                 </select>
                 <label htmlFor="partner-proposal" className="block text-sm uppercase font-bold mt-3" style={{ fontFamily: pixelFont }}>BRIEF_PROPOSAL:</label>
                 <textarea id="partner-proposal" name="message" rows={4} placeholder="// How can we collaborate effectively?" required className={`w-full p-2 bg-transparent border-2 ${currentBorderClass} focus:border-[${accentColor}] focus:outline-none focus:ring-1 focus:ring-[${accentColor}] font-mono text-sm`} />
-                <motion.button type="submit" whileHover={{ scale: 1.03, x: -3, transition: { duration: 0.1 } }} whileTap={{ scale: 0.97 }} className={`w-full uppercase border-4 ${accentBorderClass} ${accentTextClass} px-6 py-3 font-bold tracking-wider hover:bg-[${accentColor}] transition-all duration-150 flex items-center justify-center gap-2 mt-6`}>
-                  Request Collaboration <FaArrowRight />
+                <motion.button type="submit" whileHover={{ scale: 1.03, x: -3, transition: { duration: 0.1 } }} whileTap={{ scale: 0.97 }} className={`w-full uppercase border-4 ${accentBorderClass} ${accentTextClass} px-6 py-3 font-bold tracking-wider hover:bg-[${accentColor}] transition-all duration-150 flex items-center justify-center gap-2 mt-6`} disabled={state.submitting || state.succeeded}>
+                  {state.submitting ? "Submitting..." : "Request Collaboration"}{" "}
+                  {state.submitting && <FaArrowRight />}
                 </motion.button>
+                {state.succeeded && (
+                  <p className="mt-4 font-bold">
+                    Thanks for showing your interest! We'll get back to you soon.
+                  </p>
+                )}
               </form>
             </div>
           </div>
