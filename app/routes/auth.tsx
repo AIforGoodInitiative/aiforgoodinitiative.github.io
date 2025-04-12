@@ -1,7 +1,7 @@
 import { Form } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
-import { FaArrowRight, FaGoogle, FaGithub } from "react-icons/fa";
+import { FaArrowRight, FaGoogle, FaGithub, FaExclamationTriangle } from "react-icons/fa";
 import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
@@ -12,6 +12,7 @@ import {
 import { auth, googleProvider, githubProvider } from "../firebase";
 import { Link, useNavigate } from "@remix-run/react";
 import { onAuthStateChanged, signOut, signInWithRedirect } from "firebase/auth";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const monoFont = "'IBM Plex Mono', monospace";
 const serifFont = "'Libre Baskerville', serif";
@@ -265,6 +266,7 @@ export default function Auth() {
                             </button>{" "}
               //
                         </p>
+                        <div className="text-sm text-red-400 mt-8 line gap-4 flex justify-start items-start"><FaExclamationTriangle color="text-red-400" size={24} /><span>Disable popup blocker for best experience</span></div>
                     </div>
                 </section>
             </main>
