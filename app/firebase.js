@@ -17,13 +17,13 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
-// let appCheckInitialized = false;
-// if (typeof window !== "undefined" && !appCheckInitialized) {
-//   initializeAppCheck(app, {
-//     provider: new ReCaptchaV3Provider("6LesQxUrAAAAAG3eyRgvsvMcjEXn311b-YLe8j_O"),
-//     isTokenAutoRefreshEnabled: true,
-//   });
-//   appCheckInitialized = true;
-// }
+let appCheckInitialized = false;
+if (typeof window !== "undefined" && !appCheckInitialized) {
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider("6LesQxUrAAAAAG3eyRgvsvMcjEXn311b-YLe8j_O"),
+    isTokenAutoRefreshEnabled: true,
+  });
+  appCheckInitialized = true;
+}
 
 export { auth, googleProvider, githubProvider };
