@@ -18,7 +18,7 @@ const serifFont = "'Libre Baskerville', serif";
 const accentColor = "#ffffff";
 
 export const meta: MetaFunction = () => [
-    { title: "AI FOR GOOD :: Authenticate" },
+    { title: "AI FOR GOOD INITIATIVE :: Authenticate" },
     {
         name: "description",
         content: "Sign up or sign in to join the AI for Good Initiative. Contribute to open-source AI solutions for social impact.",
