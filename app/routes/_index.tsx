@@ -3,16 +3,18 @@ import { useState, useEffect, useRef } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { FaArrowRight, FaGithub } from "react-icons/fa";
 import { useForm, ValidationError } from '@formspree/react';
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
+import { auth } from "../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const pixelFont = "'Pixelify Sans', monospace";
 const monoFont = "'IBM Plex Mono', monospace";
 const serifFont = "'Libre Baskerville', serif";
-const accentColor = "#00ffff";
+const accentColor = "#ffffff";
 const glitchChars = "▓▒░█▄▀!?#@$&*";
 
 export const meta: MetaFunction = () => [
-  { title: "AI FOR GOOD :: Democratizing AI Impact" },
+  { title: "AI FOR GOOD INITIATIVE" },
   {
     name: "description",
     content:
@@ -34,11 +36,35 @@ export default function Index() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [heroText, setHeroText] = useState("AI FOR GOOD INITIATIVE");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [user, setUser] = useState<any>(null);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const navigate = useNavigate();
 
   const scrollRef = useRef(null);
   const { scrollYProgress } = useScroll({ container: scrollRef });
   const gridOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0.1, 0.05, 0.05, 0]);
   const noiseOpacity = useTransform(scrollYProgress, [0, 1], [0.08, 0.03]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    if (!window.confirm("Are you sure you want to sign out?")) return;
+    setIsSigningOut(true);
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (error: any) {
+      console.error("Sign-out error:", error.message);
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -132,7 +158,7 @@ export default function Index() {
         className={`fixed top-0 left-0 right-0 border-b-4 ${accentBorderClass} p-3 flex justify-between items-center text-xs tracking-widest z-50 ${dark ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-sm`}
       >
         <div className="flex items-center gap-3">
-          <span className={`font-bold ${accentTextClass}`}>[AI_FOR_GOOD_INITIATIVE]</span>
+          <Link className={`font-bold ${accentTextClass}`} to="/" prefetch="intent">[AI_FOR_GOOD_INITIATIVE]</Link>
           <span className="hidden md:inline">// STATUS: <span className="text-green-400">RECRUITING_NEW_VOLUNTEERS</span> //</span>
         </div>
         <div className="flex gap-3 items-center">
@@ -143,12 +169,22 @@ export default function Index() {
           >
             {dark ? "MODE:LIGHT" : "MODE:DARK"}
           </button>
-          <Link
-            to="/auth"
-            className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px]`}
-          >
-            ACCOUNTS
-          </Link>
+          {user ? (
+            <button
+              onClick={handleSignOut}
+              disabled={isSigningOut}
+              className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[${accentColor}] font-bold text-[10px] ${isSigningOut ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {isSigningOut ? "SIGNING OUT..." : "SIGN OUT"}
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px]`}
+            >
+              ACCESS
+            </Link>
+          )}
           <a href={githubURL} target="_blank" rel="noopener noreferrer" className={`uppercase border-2 ${currentBorderClass} px-3 py-1 ${hoverBgClass} ${hoverTextClass} transition-all duration-150 font-bold text-[10px] flex items-center gap-1`}><FaGithub /> GITHUB</a>
         </div>
       </motion.header>
