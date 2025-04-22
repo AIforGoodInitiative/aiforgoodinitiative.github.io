@@ -427,11 +427,9 @@ export default function Index() {
           <h3 className={`text-4xl md:text-6xl mb-10 text-center`} style={{ fontFamily: serifFont, fontWeight: 700 }}>
             ACTIVE_<span className={accentTextClass}>PROJECTS</span>
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 gap-6 md:gap-8 max-w-6xl mx-auto">
             {[
-              { title: "HEALTH_ACCESS_AI", desc: "AI-powered diagnostic assistance for remote clinics.", roles: ["ML Engineer (CV)", "Full-Stack Dev (Remix)", "Medical Knowledge"] },
-              { title: "ERP_AUTO", desc: "AI automation for mundane tasks in ERP settings.", roles: ["Data Scientist", "Full-Stack Dev", "ERP Specialist"] },
-              { title: "LLM_REASONING", desc: "Symbolic reasoning models to solve complex problems.", roles: ["NLP Specialist", "AI Researcher", "Mathematician"] },
+              { title: "RAW_VISION_ENGINE", desc: "AI-powered raw editing engine that provides users with premium image processing features for free.", roles: ["ML Engineer (CV)", "Django Dev", "Front-End Dev"] },
             ].map((proj, idx) => (
               <motion.div
                 key={proj.title}
@@ -463,6 +461,9 @@ export default function Index() {
             SUPPORT_OUR_WORK
           </h3>
           <div className="max-w-4xl mx-auto text-center">
+            <p className="text-md md:text-lg border p-2 border-b-4 border-r-4 mb-6 tracking-wide">
+              Please note that the AI for Good Initiative has yet to be officially registered. However, as we currently do not have any PR support, we are seeking assistance through crowdfunding. You can help us by reaching out to one of our co-founders at <a href="mailto:amirhosseinghanipour@fgn.ui.ac.ir" className="underline">this email address</a>.
+            </p>
             <p className="text-lg md:text-xl mb-6 tracking-wide">
               As a non-profit, we rely on community support to sustain our operations. Your donation directly funds server costs, deployment resources for underserved areas, open-source tool development, and volunteer coordination efforts. Help us build and deploy AI where it's needed most.
             </p>
@@ -522,7 +523,7 @@ export default function Index() {
               <div className="mt-10 border-t border-dashed border-current pt-6">
                 <h5 className="text-sm uppercase mb-4 opacity-80" style={{ fontFamily: pixelFont }}>// CURRENT_COLLABORATORS //</h5>
                 <div className="flex flex-wrap gap-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-300">
-                  {['AVINU_AI', 'UNIVERSITY_OF_ISFAHAN', 'OPTICORE'].map(logo => (
+                  {['AVINU', 'UNIVERSITY_OF_ISFAHAN', 'OPTICORE'].map(logo => (
                     <div key={logo} className={`border ${currentBorderClass} px-3 h-12 flex items-center justify-center text-xs ${hoverBgClass} ${hoverTextClass} bg-current/10`}>{logo}</div>
                   ))}
                 </div>
